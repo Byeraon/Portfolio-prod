@@ -1,9 +1,117 @@
 import { useEffect, useState } from "react";
+import style from "./kitty.module.css";
 
 export let Kitty = () => {
   const [leftPaw, setLeft] = useState();
+  const [mooth, setMooth] = useState();
   const [rightPaw, setRight] = useState();
   const [pawState, setState] = useState(true);
+  const [arrayLines, setLines] = useState([
+    <line x1="260.2" y1="92.3" x2="212.2" y2="88.7"></line>,
+    <line x1="197.3" y1="87.5" x2="145.2" y2="83.5"></line>,
+    <line x1="251" y1="104.2" x2="223.4" y2="101.8"></line>,
+    <line x1="209.4" y1="100.5" x2="154.4" y2="95.6"></line>,
+    <line x1="256.4" y1="117.9" x2="227.5" y2="114.7"></line>,
+    <line x1="215.9" y1="113.4" x2="183.5" y2="109.8"></line>,
+    <line x1="169.1" y1="108.2" x2="142.9" y2="105.3"></line>,
+    <line x1="275.4" y1="132.8" x2="249.4" y2="129.6"></line>,
+    <line x1="234.4" y1="127.8" x2="197.3" y2="123.3"></line>,
+    <line x1="185.6" y1="121.9" x2="149.1" y2="117.5"></line>,
+    <line x1="261" y1="144.6" x2="244.5" y2="142.5"></line>,
+    <line x1="235.5" y1="141.3" x2="214.9" y2="138.7"></line>,
+    <line x1="203.4" y1="137.2" x2="180.4" y2="134.3"></line>,
+    <line x1="169.3" y1="132.9" x2="155.1" y2="131.1"></line>,
+    <line x1="264.7" y1="158.3" x2="221.9" y2="152.1"></line>,
+    <line x1="208.2" y1="150.1" x2="191.7" y2="147.7"></line>,
+    <line x1="291.3" y1="174.3" x2="268.8" y2="170.9"></line>,
+    <line x1="257.8" y1="169.2" x2="226.5" y2="164.4"></line>,
+    <line x1="217.3" y1="163" x2="185" y2="158.1"></line>,
+    <line x1="173.8" y1="156.4" x2="152.9" y2="153.2"></line>,
+    <line x1="278.5" y1="185.6" x2="257.3" y2="182.2"></line>,
+    <line x1="243.8" y1="179.9" x2="230.3" y2="177.7"></line>,
+    <line x1="216.5" y1="175.8" x2="196.7" y2="172.5"></line>,
+    <line x2="262.1" y2="196.1" x1="280.5" y1="199.2"></line>,
+    <line x2="213.8" y2="187.9" x1="251.1" y1="194.2"></line>,
+    <line x2="180.8" y2="182.3" x1="202.7" y1="186"></line>,
+  ]);
+
+  const getRandomIntInclusive = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+  };
+
+  const setBug = () => {
+    const index = getRandomIntInclusive(0, arrayLines.length - 1);
+    console.log(index);
+    const prevLine = arrayLines[index];
+    console.log(prevLine);
+    setLines(
+      arrayLines.map((i, ind) => {
+        if (i === prevLine) {
+          return (
+            <line
+              stroke="red"
+              x1={prevLine.props.x1}
+              y1={prevLine.props.y1}
+              x2={prevLine.props.x2}
+              y2={prevLine.props.y2}
+            ></line>
+          );
+        } else return i;
+      })
+    );
+    setMooth({
+      transform: "rotate(180deg) translateY(-105%) translateX(-108%)",
+    });
+    setTimeout(() => {
+      setLines(
+        arrayLines.map((i, ind) => {
+          if (i === prevLine) {
+            return (
+              <line
+                className="animationLine"
+                stroke="orange"
+                x1={prevLine.props.x1}
+                y1={prevLine.props.y1}
+                x2={prevLine.props.x2}
+                y2={prevLine.props.y2}
+              ></line>
+            );
+          } else return i;
+        })
+      );
+      setTimeout(() => {
+        setLines(
+          arrayLines.map((i, ind) => {
+            if (i === prevLine) {
+              setMooth();
+              return (
+                <line
+                  stroke="rgb(82, 170, 74)"
+                  x1={prevLine.props.x1}
+                  y1={prevLine.props.y1}
+                  x2={prevLine.props.x2}
+                  y2={prevLine.props.y2}
+                ></line>
+              );
+            } else return i;
+          })
+        );
+        setTimeout(() => {
+          setLines(
+            arrayLines.map((i, ind) => {
+              if (i === prevLine) {
+                setMooth();
+                return prevLine;
+              } else return i;
+            })
+          );
+          setTimeout(setBug, getRandomIntInclusive(5000, 10000));
+        }, 500);
+      }, getRandomIntInclusive(2000, 3000));
+    }, getRandomIntInclusive(1000, 2000));
+  };
 
   useEffect(() => {
     const timer = () => {
@@ -13,6 +121,12 @@ export let Kitty = () => {
       }, 250);
     };
     timer();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setBug();
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -65,7 +179,10 @@ export let Kitty = () => {
         <g id="bongo-cat">
           <g className="head">
             <path d="M280.4,221l383.8,62.6a171.4,171.4,0,0,0-9.2-40.5,174,174,0,0,0-28.7-50.5,163.3,163.3,0,0,0,3.2-73.8c-11.6-1.9-42,14.2-44.5,17.5-19.6-24-88.5-52.7-153.7-48.1A78.8,78.8,0,0,0,398,67.1c-9.8,2.9-19,29.7-19.4,33.7a320,320,0,0,0-31.7,23.6c-14,11.8-28.9,24.4-42.5,44.3A173,173,0,0,0,280.4,221Z"></path>
-            <path d="M396.6,178.6c.4.9,2.7,6.5,8.5,8.4s13.4-1.2,17.2-7.9c-.9,7.5,3.8,14.3,10.4,16a14.4,14.4,0,0,0,15-5.7"></path>
+            <path
+              style={mooth}
+              d="M396.6,178.6c.4.9,2.7,6.5,8.5,8.4s13.4-1.2,17.2-7.9c-.9,7.5,3.8,14.3,10.4,16a14.4,14.4,0,0,0,15-5.7"
+            ></path>
             <path d="M474,179.2a6.6,6.6,0,0,0-4.9,3.6,6,6,0,0,0,1.5,7.3,6,6,0,0,0,7.9-1c2.3-2.6,2-7,.2-8s-5.9,1.6-5.7,3.5,1.9,2.8,3.2,2.3,1.1-2.2,1.1-2.3"></path>
             <path d="M365.4,168.9c0,.3-.8,3.6,1.5,6a5.9,5.9,0,0,0,7.2,1.4,6.1,6.1,0,0,0,2.2-7.7c-1.5-3.1-5.7-4.5-7.3-3.2s-.8,6,1,6.6,3.3-.7,3.3-2.1-1.5-1.8-1.6-1.9"></path>
             <g className="headphone headphone-right">
@@ -123,34 +240,7 @@ export let Kitty = () => {
             className="terminal-frame"
             points="93.8 63.3 284.1 73 335.9 230.5 146.2 197.6 93.8 63.3"
           ></polygon>
-          <g className="terminal-code">
-            <line x1="260.2" y1="92.3" x2="212.2" y2="88.7"></line>
-            <line x1="197.3" y1="87.5" x2="145.2" y2="83.5"></line>
-            <line x1="251" y1="104.2" x2="223.4" y2="101.8"></line>
-            <line x1="209.4" y1="100.5" x2="154.4" y2="95.6"></line>
-            <line x1="256.4" y1="117.9" x2="227.5" y2="114.7"></line>
-            <line x1="215.9" y1="113.4" x2="183.5" y2="109.8"></line>
-            <line x1="169.1" y1="108.2" x2="142.9" y2="105.3"></line>
-            <line x1="275.4" y1="132.8" x2="249.4" y2="129.6"></line>
-            <line x1="234.4" y1="127.8" x2="197.3" y2="123.3"></line>
-            <line x1="185.6" y1="121.9" x2="149.1" y2="117.5"></line>
-            <line x1="261" y1="144.6" x2="244.5" y2="142.5"></line>
-            <line x1="235.5" y1="141.3" x2="214.9" y2="138.7"></line>
-            <line x1="203.4" y1="137.2" x2="180.4" y2="134.3"></line>
-            <line x1="169.3" y1="132.9" x2="155.1" y2="131.1"></line>
-            <line x1="264.7" y1="158.3" x2="221.9" y2="152.1"></line>
-            <line x1="208.2" y1="150.1" x2="191.7" y2="147.7"></line>
-            <line x1="291.3" y1="174.3" x2="268.8" y2="170.9"></line>
-            <line x1="257.8" y1="169.2" x2="226.5" y2="164.4"></line>
-            <line x1="217.3" y1="163" x2="185" y2="158.1"></line>
-            <line x1="173.8" y1="156.4" x2="152.9" y2="153.2"></line>
-            <line x1="278.5" y1="185.6" x2="257.3" y2="182.2"></line>
-            <line x1="243.8" y1="179.9" x2="230.3" y2="177.7"></line>
-            <line x1="216.5" y1="175.8" x2="196.7" y2="172.5"></line>
-            <line x2="262.1" y2="196.1" x1="280.5" y1="199.2"></line>
-            <line x2="213.8" y2="187.9" x1="251.1" y1="194.2"></line>
-            <line x2="180.8" y2="182.3" x1="202.7" y1="186"></line>
-          </g>
+          <g className="terminal-code">{arrayLines}</g>
           <polygon
             className="laptop-cover"
             points="103.2 263.6 452.1 339 360.8 12.4 2 2 103.2 263.6"

@@ -104,18 +104,18 @@ export let Navigation = ({ setMenu, menuClose, isMenu, changeActive }) => {
           activeClassName={s.active}
           className={textes_a}
           onClick={destroyer}
-          exact
-          to="/"
+          to="/about"
         >
-          <h3 className={textes + " " + s.f}>MENU</h3>
+          <h3 className={textes + " " + s.s}>ABOUT</h3>
         </NavLink>
         <NavLink
           activeClassName={s.active}
           className={textes_a}
           onClick={destroyer}
-          to="/about"
+          exact
+          to="/"
         >
-          <h3 className={textes + " " + s.s}>ABOUT</h3>
+          <h3 className={textes + " " + s.f}>HOMEPAGE</h3>
         </NavLink>
         <NavLink
           activeClassName={s.active}

@@ -77,7 +77,6 @@ body {
 .container_kitty svg {
   height: 360px;
   width: 783px;
-  transform: scale(1.1);
   overflow: visible;
 }
 
@@ -133,4 +132,30 @@ body {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 4;
+}
+
+.linesd {
+  width: 0;
+}
+
+.animationLine {
+  animation: animLine 2s linear infinite;
+}
+
+@keyframes animLine {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-0.5%);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(0.5%);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
