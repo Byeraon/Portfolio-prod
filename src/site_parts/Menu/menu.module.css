@@ -36,7 +36,7 @@
 .c_p {
   animation: changing 1s ease-in-out infinite;
 }
-
+ 
 @keyframes changing_true {
   0% {
     opacity: 0;
