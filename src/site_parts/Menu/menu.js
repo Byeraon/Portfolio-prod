@@ -14,11 +14,9 @@ export let Menu = (props) => {
           <h1>&nbsp;KRASNOV ~</h1>
         </div>
         <h2 className={style.top_text}>
-          Frontend{" "}
-          <span style={{ backgroundColor: "white", color: "#1f2029" }}>
-            &nbsp;Developer{" "}
-          </span>
-          &nbsp;
+          Frontend 
+          <span className={style.text_next}>
+          &nbsp;Developer</span>
         </h2>
       </div>
       <Links setCard={props.setCard}></Links>

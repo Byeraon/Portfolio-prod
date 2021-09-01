@@ -61,4 +61,15 @@ h1 {
 
 .top_text {
   font-size: 1.2vw;
+  color: white;
+}
+
+.text_next {
+  background-color: white;
+  color: #121520;
+}
+
+.text_next::selection {
+  background-color: #121520;
+  color: white;
 }
